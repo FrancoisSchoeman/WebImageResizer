@@ -1,0 +1,84 @@
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Primary Meta Tags -->
+    <title>Image Resizer - Free Bulk Image Resizing Made Easy</title>
+    <meta name="title" content="Image Resizer - Free Bulk Image Resizing Made Easy">
+    <meta name="description"
+        content="Image Resizer is a free online service that allows you to resize images in bulk. With Image Resizer, you can easily resize all of your images in just a few clicks.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imageresizer.grkkwebpresence.co.za/">
+    <meta property="og:title" content="Image Resizer - Free Bulk Image Resizing Made Easy">
+    <meta property="og:description"
+        content="Image Resizer is a free online service that allows you to resize images in bulk. With Image Resizer, you can easily resize all of your images in just a few clicks.">
+    <meta property="og:image" content="{% static 'image-resizer-splash.webp' %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://imageresizer.grkkwebpresence.co.za/">
+    <meta property="twitter:title" content="Image Resizer - Free Bulk Image Resizing Made Easy">
+    <meta property="twitter:description"
+        content="Image Resizer is a free online service that allows you to resize images in bulk. With Image Resizer, you can easily resize all of your images in just a few clicks.">
+    <meta property="twitter:image" content="{% static 'image-resizer-splash.webp' %}">
+
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/"
+                class="text-white d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img class="bi me-2" src="{% static 'favicon.ico' %}" alt="Logo" width="32" height="32">
+                <span class="fs-4 navbar-brand">Image Resizer</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="{% url 'resize_image' %}#resizer" class="nav-link active"
+                        aria-current="page">Resize Now</a></li>
+                <!-- <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li> -->
+                <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </header>
+    </div>
+
+    {% block content %}{% endblock %}
+</body>
+
+<!-- <footer>
+    <p>&copy; 2021 - <span id="current-year"></span> Image Resizer</p>
+    <p>Made with ❤️ by <a href="https://grkkwebpresence.co.za/" target="_blank" rel="noopener">GRKK Web Presence</a></p>
+</footer> -->
+
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">&copy; 2021 - <span id="current-year"></span> Image Resizer</p>
+
+        <p class="col-md-4 mb-0 text-body-secondary text-end">Made with ❤️ by <a
+                class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                href="https://grkkwebpresence.co.za/" target="_blank" rel="noopener">GRKK Web Presence</a></p>
+    </footer>
+</div>
+
+<script>
+    // Get the current year
+    var currentYear = new Date().getFullYear();
+
+    // Update the footer content
+    document.getElementById("current-year").textContent = currentYear;
+</script>
+
+</html>

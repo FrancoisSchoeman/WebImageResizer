@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block title %}Image Resizer{% endblock %}
+
+{% block content %}
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-4">
+            <img src="{% static 'cat-thinking.png' %}" class="d-block mx-lg-auto"
+                alt="Cat Thinking With Coffee On Table" height="350" loading="lazy">
+        </div>
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Resize your images in bulk, for free!</h1>
+            <p class="lead">Image Resizer is a free online service that allows you to resize images in bulk. With Image
+                Resizer, you can easily
+                resize all of your images in just a few clicks.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a role="button" href="#resizer" class="btn btn-primary btn-lg px-4 me-md-2">Resize
+                    Images</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="resizer" class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+
+        <div class="col-md-10 mx-auto col-lg-7">
+
+            <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if images_count %}
+                <p class="lead">{{ images_count }} Images resized so far!</p>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_images">Select image(s):</label>
+                    <input type="file" name="images" class="form-control-file" id="id_images" multiple required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_basewidth">Enter width:</label>
+                    <input type="number" name="basewidth" class="form-control" id="id_basewidth" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_format">Select format:</label>
+                    <select name="format" class="form-control" id="id_format" required>
+                        <option value="jpeg">JPEG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WEBP</option>
+                        <option value="pdf">PDF</option>
+                        <option value="tiff">TIFF</option>
+                        <option value="jpe">JPE</option>
+                        <option value="pcx">PCX</option>
+                        <option value="ppm">PPM</option>
+                        <option value="sgi">SGI</option>
+                        <option value="tga">TGA</option>
+                        <option value="bmp">BMP</option>
+                        <option value="eps">EPS</option>
+                        <option value="gif">GIF</option>
+                        <option value="ico">ICO</option>
+                    </select>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" id="custom_name_switch" name="use_custom_name" type="checkbox"
+                        role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Use custom name:</label>
+                </div>
+
+
+                <div class="form-group" id="custom_name_wrapper" style="visibility: hidden;">
+                    <label for="id_custom_name">Enter custom name:</label>
+                    <input type="text" name="custom_name" class="form-control" id="id_custom_name" disabled>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary my-2" type="submit">Resize</button>
+                <hr class="my-4">
+                <small class="text-body-secondary">Your resized images will be downloaded to your computer in a zip
+                    file.</small>
+            </form>
+        </div>
+
+
+        <div class="col-lg-5 text-center text-lg-start">
+            <h2 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">How it works</h2>
+            <div class="col-lg-10 fs-4">
+                <p class="lead">
+                    Image Resizer is very easy to use. Just follow these simple steps:
+                </p>
+                <ol class="lead">
+                    <li>Upload your images to Image Resizer.</li>
+                    <li>Select the desired width of your images.</li>
+                    <li>Select the desired output formats for your resized images.</li>
+                    <li>Choose whether you want a custom name for your resized images.</li>
+                    <li>Click on the "Resize" button.</li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+
+        <div class="col-10 col-sm-8 col-lg-4">
+            <img src="{% static 'cat-plant.png' %}" class="d-block mx-lg-auto" alt="Cat Watching Plant Grow"
+                height="350" loading="lazy">
+        </div>
+
+        <div class="col-lg-8">
+            <h2 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Benefits</h2>
+            <div>
+                <p class="lead">
+                    There are many benefits to using Image Resizer. Here are just a few:</p>
+
+                <ol class="lead">
+                    <li>Save time: Image Resizer can save you a lot of time by automatically resizing all of your images
+                        for
+                        you.</li>
+                    <li>Improve image quality: Image Resizer uses high-quality algorithms to resize your images, so you
+                        can be
+                        sure that they
+                        will look great.</li>
+                    <li>Optimize your website for search engines: By resizing your images, you can improve the loading
+                        speed
+                        of your website,
+                        which can help you rank higher in search engine results pages (SERPs).</li>
+                    <li>Choose multiple formats: Image Resizer allows you to choose multiple formats for your resized
+                        images,
+                        so you can
+                        choose the format that best suits your needs.</li>
+                    <li>It's free!</li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="bg-dark text-white px-4 py-4 text-center">
+    <div class="py-4">
+        <h2 class="display-5 fw-bold">Resize your images today!</h>
+            <div class="col-lg-10 mx-auto">
+                <p class="fs-5 mb-4">If you're looking for a quick and easy way to resize your images, then Image
+                    Resizer is
+                    the perfect solution for you.
+                    With Image Resizer, you can easily resize all of your images in just a few clicks. So what are you
+                    waiting for? Try
+                    Image Resizer today!</p>
+            </div>
+    </div>
+</div>
+
+
+<script>
+    function toggleCustomName() {
+        var customNameInput = document.getElementById("id_custom_name");
+        var customNameWrapper = document.getElementById("custom_name_wrapper");
+        var useCustomNameSwitch = document.getElementById("custom_name_switch");
+        if (useCustomNameSwitch.checked) {
+            customNameInput.disabled = false;
+            customNameWrapper.style.visibility = "visible";
+        } else {
+            customNameInput.disabled = true;
+            customNameWrapper.style.visibility = "hidden";
+        }
+    }
+    document.getElementById("custom_name_switch").addEventListener("click", toggleCustomName);
+</script>
+{% endblock %}

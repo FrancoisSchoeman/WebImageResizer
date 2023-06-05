@@ -1,0 +1,8 @@
+body {
+  background-color: #212529;
+  color: #fff;
+}
+
+.image-blurred-edge {
+  box-shadow: 0 0 8px 8px #212529 inset;
+}
