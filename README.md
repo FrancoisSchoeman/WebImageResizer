@@ -17,7 +17,7 @@ Follow these steps to set up the Image Resizer project on your local machine:
 
    ```
    $ git clone https://github.com/FrancoisSchoeman/WebImageResizer.git
-   $ cd image-resizer
+   $ cd web_image_resizer
    ```
 
 2. Create a virtual environment and activate it:
