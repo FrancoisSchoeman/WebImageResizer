@@ -33,7 +33,7 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 DEBUG = False
-ALLOWED_HOSTS = ["FrancoisSchoeman.pythonanywhere.com"]
+ALLOWED_HOSTS = ["FrancoisSchoeman.pythonanywhere.com", "proxy.server:3128"]
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
