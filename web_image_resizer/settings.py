@@ -27,10 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEPLOYMENT SETTINGS
 
-ALLOWED_HOSTS = []
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+DEBUG = False
+ALLOWED_HOSTS = ["FrancoisSchoeman.pythonanywhere.com", "proxy.server:3128"]
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -138,9 +141,12 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
 MEDIA_URL = "/media/"
+
+# STATIC DEPLOYMENT SETTINGS
+STATIC_ROOT = "/home/FrancoisSchoeman/web_image_resizer/staticfiles"
+MEDIA_ROOT = "/home/FrancoisSchoeman/web_image_resizer/media"
 
 
 # Default primary key field type
