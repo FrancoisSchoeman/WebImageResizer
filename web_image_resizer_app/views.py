@@ -28,7 +28,7 @@ def resize_landscape(im, target_width):
     if target_width > width:
         img_resize = im.resize((target_width, target_height), ImagePIL.BOX)
     elif target_width < width:
-        img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
+        img_resize = im.resize((target_width, target_height), ImagePIL.LANCZOS)
     return img_resize
 
 
@@ -39,7 +39,7 @@ def resize_portrait(im, target_height):
     height_ratio = target_height / height
     target_width = int((width * float(height_ratio)))
 
-    img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
+    img_resize = im.resize((target_width, target_height), ImagePIL.LANCZOS)
     
     return img_resize
 
