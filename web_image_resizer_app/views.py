@@ -19,23 +19,28 @@ import os
 load_dotenv()
 
 
-def resize_landscape(im, basewidth):
-    wpercent = basewidth / float(im.size[0])
-    hsize = int((float(im.size[1]) * float(wpercent)))
-    if basewidth > float(im.size[0]):
-        img_resize = im.resize((basewidth, hsize), ImagePIL.BOX)
-    elif basewidth < float(im.size[0]):
-        img_resize = im.resize((basewidth, hsize), ImagePIL.ANTIALIAS)
+def resize_landscape(im, target_width):
+    width = float(im.size[0])
+    height = float(im.size[1])
+
+    width_ratio = target_width / width
+    target_height = int((height * float(width_ratio)))
+    if target_width > width:
+        img_resize = im.resize((target_width, target_height), ImagePIL.BOX)
+    elif target_width < width:
+        img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
     return img_resize
 
 
-def resize_portrait(im, basewidth):
-    wpercent = basewidth / float(im.size[0])
-    hsize = int((float(im.size[1]) * float(wpercent)))
-    if hsize > basewidth:
-        img_resize = im.resize((hsize, basewidth), ImagePIL.ANTIALIAS)
-    else:
-        img_resize = im.resize((basewidth, hsize), ImagePIL.ANTIALIAS)
+def resize_portrait(im, target_height):
+    width = float(im.size[0])
+    height = float(im.size[1])
+
+    height_ratio = target_height / height
+    target_width = int((width * float(height_ratio)))
+
+    img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
+    
     return img_resize
 
 
@@ -55,7 +60,7 @@ def resize_image(request):
 
     if request.method == "POST" and request.FILES.getlist("images"):
         images = request.FILES.getlist("images")
-        basewidth = int(request.POST.get("basewidth", 800))
+        target_width = int(request.POST.get("target_width", 800))
         img_format = request.POST.get("format", "jpeg")
         use_custom_name = request.POST.get("use_custom_name", False)
         custom_name = request.POST.get("custom_name", "")
@@ -71,14 +76,14 @@ def resize_image(request):
                 print(im.size[0], im.size[1])
                 if im.size[0] < im.size[1]:
                     print("portrait")
-                    img_resize = resize_portrait(im, basewidth)
+                    img_resize = resize_portrait(im, target_width)
                     if use_custom_name == "on":
                         filename = f"{custom_name}_{n}.{img_format}"
                     else:
                         filename = f'{image.name.split(".")[0]}_resized.{img_format}'
                 elif im.size[0] > im.size[1] or im.size[0] == im.size[1]:
                     print("landscape")
-                    img_resize = resize_landscape(im, basewidth)
+                    img_resize = resize_landscape(im, target_width)
                     if use_custom_name == "on":
                         filename = f"{custom_name}_{n}.{img_format}"
                     else:
