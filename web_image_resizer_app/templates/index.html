@@ -177,5 +177,19 @@
         }
     }
     document.getElementById("custom_name_switch").addEventListener("click", toggleCustomName);
+
+    const uploadField = document.getElementById("id_images");
+
+    uploadField.onchange = function () {
+        let uploadFieldSize = 0;
+        for (let i = 0; i < uploadField.files.length; i++) {
+            uploadFieldSize += uploadField.files[i].size;
+            if (uploadFieldSize > 1048576 * 65) {
+                alert("The combined size of your images are too big!\nPlease select less images at a time.");
+                uploadField.value = "";
+            }
+        };
+    };
+
 </script>
 {% endblock %}
