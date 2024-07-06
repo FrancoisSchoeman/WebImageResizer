@@ -184,7 +184,7 @@
         let uploadFieldSize = 0;
         for (let i = 0; i < uploadField.files.length; i++) {
             uploadFieldSize += uploadField.files[i].size;
-            if (uploadFieldSize > 1048576 * 65) {
+            if (uploadFieldSize > 1048576 * 100) {
                 alert("The combined size of your images are too big!\nPlease select less images at a time.");
                 uploadField.value = "";
             }

@@ -27,13 +27,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# DEPLOYMENT SETTINGS
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-DEBUG = False
-ALLOWED_HOSTS = ["FrancoisSchoeman.pythonanywhere.com", "proxy.server:3128"]
+# if bool(os.environ.get("DJANGO_SSL", default=0)):
+#     SECURE_SSL_REDIRECT = bool(os.environ.get("SECURE_SSL_REDIRECT", default=0))
+#     SESSION_COOKIE_SECURE = bool(os.environ.get("SESSION_COOKIE_SECURE", default=0))
+#     CSRF_COOKIE_SECURE = bool(os.environ.get("CSRF_COOKIE_SECURE", default=0))
+
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
+
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -141,12 +145,9 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "/media/"
-
-# STATIC DEPLOYMENT SETTINGS
-STATIC_ROOT = "/home/FrancoisSchoeman/web_image_resizer/staticfiles"
-MEDIA_ROOT = "/home/FrancoisSchoeman/web_image_resizer/media"
 
 
 # Default primary key field type
