@@ -6,10 +6,10 @@
 
 {% block content %}
 
-<div class="container col-xxl-8 px-4 py-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+<div class="container col-xxl-8 px-4 py-md-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-md-5">
         <div class="col-10 col-sm-8 col-lg-4">
-            <img src="{% static 'cat-thinking.png' %}" class="d-block mx-lg-auto"
+            <img src="{% static 'cat-thinking.png' %}" class="d-block mx-lg-auto img-fluid"
                 alt="Cat Thinking With Coffee On Table" height="350" loading="lazy">
         </div>
         <div class="col-lg-8">
@@ -19,7 +19,7 @@
                 resize all of your images in just a few clicks.
             </p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <a role="button" href="#resizer" class="btn btn-primary btn-lg px-4 me-md-2">Resize
+                <a role="button" href="#resizer" class="btn btn-primary btn-lg px-md-4 me-md-2">Resize
                     Images</a>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
 
 <div id="resizer" class="container col-xl-10 col-xxl-8 px-4 py-5">
-    <div class="row align-items-center g-lg-5 py-5">
+    <div class="row align-items-center g-5 g-lg-5 py-md-5">
 
         <div class="col-md-10 mx-auto col-lg-7">
 
@@ -80,16 +80,16 @@
                     <input type="text" name="custom_name" class="form-control" id="id_custom_name" disabled>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary my-2" type="submit">Resize</button>
-                <hr class="my-4">
-                <p class="text-body-secondary">Maximum size per resize: 65MB.</p>
+                <button class="w-100 btn btn-lg btn-primary my-md-2" type="submit">Resize</button>
+                <hr class="my-md-4">
+
                 <small class="text-body-secondary">Your resized images will be downloaded to your computer in a zip
                     file.</small>
             </form>
         </div>
 
 
-        <div class="col-lg-5 text-center text-lg-start">
+        <div class="col-lg-5 text-start">
             <h2 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">How it works</h2>
             <div class="col-lg-10 fs-4">
                 <p class="lead">
@@ -109,11 +109,11 @@
 </div>
 
 
-<div class="container col-xxl-8 px-4 py-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+<div class="container col-xxl-8 px-4 py-md-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-md-5">
 
         <div class="col-10 col-sm-8 col-lg-4">
-            <img src="{% static 'cat-plant.png' %}" class="d-block mx-lg-auto" alt="Cat Watching Plant Grow"
+            <img src="{% static 'cat-plant.png' %}" class="d-block mx-lg-auto img-fluid" alt="Cat Watching Plant Grow"
                 height="350" loading="lazy">
         </div>
 
@@ -148,17 +148,20 @@
 </div>
 
 
-<div class="bg-dark text-white px-4 py-4 text-center">
-    <div class="py-4">
-        <h2 class="display-5 fw-bold">Resize your images today!</h>
-            <div class="col-lg-10 mx-auto">
-                <p class="fs-5 mb-4">If you're looking for a quick and easy way to resize your images, then Image
-                    Resizer is
-                    the perfect solution for you.
-                    With Image Resizer, you can easily resize all of your images in just a few clicks. So what are you
-                    waiting for? Try
-                    Image Resizer today!</p>
-            </div>
+<div class="container bg-dark text-white px-4 py-5 py-md-4 text-md-center">
+    <div class="py-md-4">
+        <h2 class="display-5 fw-bold mb-3">Resize your images today!</h2>
+        <div class="col-lg-10 mx-auto lead">
+            <p class="fs-5 mb-4">If you're looking for a quick and easy way to resize your images, then Image
+                Resizer is
+                the perfect solution for you.
+            </p>
+            <p class="fs-5 mb-4">With Image Resizer, you can easily resize all of your images in just a few clicks.
+                So what are you
+                waiting for?</p>
+            <p class="fs-5 mb-4">Try
+                Image Resizer today!</p>
+        </div>
     </div>
 </div>
 

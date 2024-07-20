@@ -23,7 +23,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://francoisschoeman.pythonanywhere.com/">
+    <meta property="og:url" content="https://image-resizer.fsdev.co.za/">
     <meta property="og:title" content="Image Resizer - Free Bulk Image Resizing Made Easy">
     <meta property="og:description"
         content="Image Resizer is a free online service that allows you to resize images in bulk. With Image Resizer, you can easily resize all of your images in just a few clicks.">
@@ -31,7 +31,7 @@
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://francoisschoeman.pythonanywhere.com/">
+    <meta property="twitter:url" content="https://image-resizer.fsdev.co.za/">
     <meta property="twitter:title" content="Image Resizer - Free Bulk Image Resizing Made Easy">
     <meta property="twitter:description"
         content="Image Resizer is a free online service that allows you to resize images in bulk. With Image Resizer, you can easily resize all of your images in just a few clicks.">
@@ -57,29 +57,33 @@
     </div>
 
     {% block content %}{% endblock %}
+
+    <div class="container">
+        <footer
+            class="d-flex flex-wrap justify-content-between align-items-center py-3 my-2 my-md-4 border-top text-center text-md-start">
+            <p class="col-md-4 mb-2 mb-md-0 text-body-secondary">&copy; 2021 - <span id="current-year"></span> Image
+                Resizer
+            </p>
+
+            <p class="col-md-4 mb-2 mb-md-0 text-body-secondary text-md-center"><a
+                    class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    href="mailto:francois.schoeman15@gmail.com?subject=New Message From Image Resizer Website"
+                    target="_blank" rel="noopener">francois.schoeman15@gmail.com</a></p>
+
+            <p class="col-md-4 mb-2 mb-md-0 text-body-secondary text-end">Made with ❤️ by <a
+                    class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    href="https://github.com/FrancoisSchoeman" target="_blank" rel="noopener">this guy</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Get the current year
+        var currentYear = new Date().getFullYear();
+
+        // Update the footer content
+        document.getElementById("current-year").textContent = currentYear;
+    </script>
+
 </body>
-
-<div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-body-secondary">&copy; 2021 - <span id="current-year"></span> Image Resizer</p>
-
-        <p class="col-md-4 mb-0 text-body-secondary text-center"><a
-                class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                href="mailto:francois@gardenrouteandkleinkaroo.co.za?subject=New Message From Image Resizer Website"
-                target="_blank" rel="noopener">francois@gardenrouteandkleinkaroo.co.za</a></p>
-
-        <p class="col-md-4 mb-0 text-body-secondary text-end">Made with ❤️ by <a
-                class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                href="https://github.com/FrancoisSchoeman" target="_blank" rel="noopener">this guy</a></p>
-    </footer>
-</div>
-
-<script>
-    // Get the current year
-    var currentYear = new Date().getFullYear();
-
-    // Update the footer content
-    document.getElementById("current-year").textContent = currentYear;
-</script>
 
 </html>
