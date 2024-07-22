@@ -10,6 +10,10 @@ Image Resizer is a Django-based web application that allows you to resize multip
 - Easy-to-use interface powered by Bootstrap 5
 - Docker support for easy setup and deployment
 
+## Demo
+
+You can view the demo here: https://francoisschoeman.pythonanywhere.com/
+
 ## Getting Started
 
 ### Prerequisites
