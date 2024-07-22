@@ -1,59 +1,28 @@
-import django
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
 from django.conf import settings
-from PIL import Image as ImagePIL
-import io
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.http import HttpResponse
-
+import os
 from dotenv import load_dotenv
 
+from .image_resizer import archive_images
 from .models import Image
-
-import zipfile
-import os
 
 load_dotenv()
 
 
-def resize_landscape(im, target_width):
-    width = float(im.size[0])
-    height = float(im.size[1])
+def resize_image(request: HttpRequest) -> HttpResponse:
+    """
+    Handle image upload, resize images based on the specified target width, and return a zip file containing the resized images.
 
-    width_ratio = target_width / width
-    target_height = int((height * float(width_ratio)))
-    if target_width > width:
-        img_resize = im.resize((target_width, target_height), ImagePIL.BOX)
-    elif target_width < width:
-        img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
-    return img_resize
+    Args:
+        request (HttpRequest): The HTTP request object containing image files and form data.
 
-
-def resize_portrait(im, target_height):
-    width = float(im.size[0])
-    height = float(im.size[1])
-
-    height_ratio = target_height / height
-    target_width = int((width * float(height_ratio)))
-
-    img_resize = im.resize((target_width, target_height), ImagePIL.ANTIALIAS)
-    
-    return img_resize
-
-
-def get_image_data(image, img_format):
-    if image.mode != "RGB":
-        image = image.convert("RGB")
-    img_buffer = io.BytesIO()
-    image.save(img_buffer, format=img_format)
-    img_data = img_buffer.getvalue()
-    return img_data
-
-
-def resize_image(request):
+    Returns:
+        HttpResponse: A response containing a zip file with the resized images or the rendered HTML page.
+    """
     context = {
         "images_count": Image.objects.count(),
     }
@@ -66,43 +35,27 @@ def resize_image(request):
         custom_name = request.POST.get("custom_name", "")
         path = os.path.join(settings.BASE_DIR, "resized_images/")
         os.makedirs(path, exist_ok=True)
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-            for n, image in enumerate(images):
-                try:
-                    im = ImagePIL.open(image)
-                except OSError:
-                    continue
-                print(im.size[0], im.size[1])
-                if im.size[0] < im.size[1]:
-                    print("portrait")
-                    img_resize = resize_portrait(im, target_width)
-                    if use_custom_name == "on":
-                        filename = f"{custom_name}_{n}.{img_format}"
-                    else:
-                        filename = f'{image.name.split(".")[0]}_resized.{img_format}'
-                elif im.size[0] > im.size[1] or im.size[0] == im.size[1]:
-                    print("landscape")
-                    img_resize = resize_landscape(im, target_width)
-                    if use_custom_name == "on":
-                        filename = f"{custom_name}_{n}.{img_format}"
-                    else:
-                        filename = f'{image.name.split(".")[0]}_resized.{img_format}'
-                else:
-                    raise ValueError("Unsupported image format")
-                img_data = get_image_data(img_resize, img_format)
-                zip_file.writestr(filename, img_data)
-                # Create a new Image object and save it to the database
-                new_image = Image(image_name=filename)
-                new_image.save()
+
+        zip_buffer = archive_images(images, target_width, img_format, use_custom_name, custom_name)
         zip_buffer.seek(0)
+
         response = HttpResponse(zip_buffer, content_type="application/zip")
         response["Content-Disposition"] = 'attachment; filename="resized_images.zip"'
         return response
+    
     return render(request, "index.html", context)
 
 
-def contact(request):
+def contact(request: HttpRequest) -> HttpResponse:
+    """
+    Handle the contact form submission and send an email with the form details.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing form data.
+
+    Returns:
+        HttpResponse: A response rendering the contact page with a success message if the form is submitted.
+    """
     context = {}
     if request.method == "POST":
         name = request.POST.get("name")
