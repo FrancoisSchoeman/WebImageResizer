@@ -1,8 +1,36 @@
-from PIL import Image as ImagePIL
+from PIL import Image as ImagePIL, ExifTags
 import io
 import zipfile
 from .models import Image
 from typing import List, Union
+
+
+def apply_exif_orientation(image: ImagePIL.Image) -> ImagePIL.Image:
+    """
+    Apply the correct orientation to an image based on its EXIF data.
+
+    Args:
+        image (ImagePIL.Image): The original image.
+
+    Returns:
+        ImagePIL.Image: The image with the correct orientation applied.
+    """
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = image._getexif()
+        if exif is not None:
+            orientation = exif.get(orientation)
+            if orientation == 3:
+                image = image.rotate(180, expand=True)
+            elif orientation == 6:
+                image = image.rotate(270, expand=True)
+            elif orientation == 8:
+                image = image.rotate(90, expand=True)
+    except (AttributeError, KeyError, IndexError):
+        pass
+    return image
 
 
 def resize_landscape(im: ImagePIL.Image, target_width: int) -> ImagePIL.Image:
@@ -101,6 +129,7 @@ def archive_images(
         for n, image in enumerate(images):
             try:
                 im = ImagePIL.open(image)
+                im = apply_exif_orientation(im)
             except OSError:
                 continue
             print(im.size[0], im.size[1])

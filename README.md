@@ -12,7 +12,7 @@ Image Resizer is a Django-based web application that allows you to resize multip
 
 ## Demo
 
-You can view the demo here: https://francoisschoeman.pythonanywhere.com/
+You can view the version here: https://image-resizer.fsdev.co.za/
 
 ## Getting Started
 
@@ -70,7 +70,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Run migrations and start the development server:
+3. Change the load_dotenv call in `settings.py` to:
+
+```python
+load_dotenv('.env.dev')
+```
+
+4. Run migrations and start the development server:
 
 ```bash
 python manage.py migrate
