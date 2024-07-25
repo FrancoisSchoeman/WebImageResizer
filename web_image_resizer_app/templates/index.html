@@ -32,7 +32,8 @@
 
         <div class="col-md-10 mx-auto col-lg-7">
 
-            <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post" enctype="multipart/form-data">
+            <form id="resizer-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post"
+                enctype="multipart/form-data">
                 {% csrf_token %}
 
                 {% if images_count %}
@@ -44,12 +45,12 @@
                     <input type="file" name="images" class="form-control-file" id="id_images" multiple required>
                 </div>
 
-                <div class="form-group">
-                    <label for="id_target_width">Enter width:</label>
+                <div class="form-group mt-2">
+                    <label for="id_target_width">Enter the max width or height in pixels:</label>
                     <input type="number" name="target_width" class="form-control" id="id_target_width" required>
                 </div>
-                <div class="form-group">
-                    <label for="id_format">Select format:</label>
+                <div class="form-group mt-2">
+                    <label for="id_format">Select format to convert images to:</label>
                     <select name="format" class="form-control" id="id_format" required>
                         <option value="jpeg">JPEG</option>
                         <option value="png">PNG</option>
@@ -68,10 +69,10 @@
                     </select>
                 </div>
 
-                <div class="form-check form-switch">
+                <div class="form-check form-switch mt-2">
                     <input class="form-check-input" id="custom_name_switch" name="use_custom_name" type="checkbox"
                         role="switch" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Use custom name:</label>
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Use custom name?</label>
                 </div>
 
 
@@ -80,13 +81,19 @@
                     <input type="text" name="custom_name" class="form-control" id="id_custom_name" disabled>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary my-md-2" type="submit">Resize</button>
+                <button class="w-100 btn btn-lg btn-primary my-md-2 d-flex justify-content-center " type="submit">
+                    <div id="loading-indicator" class="spinner-border text-light me-2" role="status"
+                        style="display: none;">
+                        <span class="visually-hidden">Resizing...</span>
+                    </div>
+                    <span id="resize-button-text">Resize</span>
+                </button>
                 <hr class="my-md-4">
 
                 <small class="text-body-secondary">Your resized images will be downloaded to your computer in a zip
                     file.</small>
                 <br>
-                <small class="text-body-secondary">Maximum size per resize: 100MB</small>
+                <small class="text-body-secondary">Maximum size per resize: 85 MB</small>
             </form>
         </div>
 
@@ -169,32 +176,62 @@
 
 
 <script>
+    // Toggles the visibility of the custom name input field based on the state of the switch
     function toggleCustomName() {
-        var customNameInput = document.getElementById("id_custom_name");
-        var customNameWrapper = document.getElementById("custom_name_wrapper");
-        var useCustomNameSwitch = document.getElementById("custom_name_switch");
-        if (useCustomNameSwitch.checked) {
-            customNameInput.disabled = false;
-            customNameWrapper.style.visibility = "visible";
-        } else {
-            customNameInput.disabled = true;
-            customNameWrapper.style.visibility = "hidden";
+        const customNameInput = document.getElementById("id_custom_name");
+        const customNameWrapper = document.getElementById("custom_name_wrapper");
+        const useCustomNameSwitch = document.getElementById("custom_name_switch");
+
+        const isVisible = useCustomNameSwitch.checked;
+        customNameInput.disabled = !isVisible;
+        customNameWrapper.style.visibility = isVisible ? "visible" : "hidden";
+    }
+
+    // Checks the total size of the selected images and alerts the user if it exceeds the limit
+    function handleFileSelection() {
+        const uploadField = document.getElementById("id_images");
+        let uploadFieldSize = Array.from(uploadField.files).reduce((total, file) => total + file.size, 0);
+
+        if (uploadFieldSize > 1048576 * 85) {
+            alert("The combined size of your images are too big!\nPlease select fewer images at a time.");
+            uploadField.value = "";
         }
     }
+
+    // Handles the form submission
+    function handleSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const resizeButtonText = document.getElementById('resize-button-text');
+
+        loadingIndicator.style.display = 'block';
+        resizeButtonText.textContent = 'Resizing...';
+
+        // Send the form data to the server, and download the resized images
+        fetch('/', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'resized_images.zip';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+
+                loadingIndicator.style.display = 'none';
+                resizeButtonText.textContent = 'Resize';
+            });
+    }
+
+    // Event listeners
     document.getElementById("custom_name_switch").addEventListener("click", toggleCustomName);
-
-    const uploadField = document.getElementById("id_images");
-
-    uploadField.onchange = function () {
-        let uploadFieldSize = 0;
-        for (let i = 0; i < uploadField.files.length; i++) {
-            uploadFieldSize += uploadField.files[i].size;
-            if (uploadFieldSize > 1048576 * 100) {
-                alert("The combined size of your images are too big!\nPlease select less images at a time.");
-                uploadField.value = "";
-            }
-        };
-    };
-
+    document.getElementById("id_images").addEventListener("change", handleFileSelection);
+    document.getElementById('resizer-form').addEventListener('submit', handleSubmit);
 </script>
 {% endblock %}
